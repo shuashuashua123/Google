@@ -1,0 +1,26 @@
+电面一轮+一轮加面
+1. 两个string，a-z组成并且带*，代表往回删一个字母，求最后结果是不是一样. more info on 1point3acres
+这道题算是原题了，之前见过有面经，没自己做一遍，感觉挺简单。但是g家电面是我第一个面试，所以有点紧张，当时思路说出来了但是code写的乱七八糟
+烙印面试官结束的时候跟我说没事你的code大部分都ok就是有点小bug 没问题的。当时都打算抱着必死的心了，结果recruiter说加面一轮。
+加面：给个图，然后告诉你起点，求k步之内能跳到的所有点。followup刚好k步能跳到的所有点。没啥好说的，bfs秒
+
+onsite
+1. 给workflow（给的格式是ide上代码的那种格式），有task，有condition，例子如下
+task1
+task2
+if (condition1) {
+  task 3
+}
+while (condition 2) {
+  task 4
+  if (condition 3) {.留学论坛-一亩-三分地
+    task 5.
+  }
+}
+然后题目是说，user有一个api，叫做run_one_task()，作用是可以正确的执行下一个该被执行的任务，其中condition是在user使用的时候才判断，所以不能提前preprocess。让我设计一个data strcutre，并且实现这个api。. Waral 博客有更多文章,
+一开始第一题脑子懵的，扯了半天没想到把整个flow变成directed graph。然后面试官估计看不下去了给我画了个图，恍然大悟。后来谈到设计方面，我一开始说enum 定义图的node，里面有两个type task和condition。
+面试官说可以不用enum，用多态就好了。我就吭哧吭哧写了个abstract class，然后task和condition extend一下就好了。然后就是正常的判断，执行就好了
+
+2.给你公交线路，和每个公交车线路停靠的站点，告诉你上车站和下车站，求最小的转车次数。简单的bfs。这轮面试官感觉很满意，应该是个strong hire吧
+3.两个input array，第一个代表box的高度，第二个代表每个position的高度。每个position只能放最多一个box（也就是box的长宽，pos的长宽都一样，只有高度不同，而且box is non stackable），问你最多可以在这个position里面放几个box。要求是box必须从position index为0的一端放进去。. From 1point 3acres bbs
+4. magic square，行列对角线和相等。这轮是seti的面试，code部分我就用了最暴力的解法，每个位置试剩下数字的所有可能性，面试官说ok。写了代码，然后讨论了时间复杂度空间复杂度，讨论了不少的test case，每个case怎么验证答案正确。反正就是交流呗
