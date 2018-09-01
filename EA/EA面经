@@ -1,0 +1,78 @@
+1. 给一个总的time interval，比如[1, 100]，再给一些tasks的time interval，比如[1, 50], [51, 100], [1, 99]，每次只能连续执行一个task，然后问最多能在给定的总的time interval里执行多少个task，刚才那个例子就是最多只能执行两个[1, 50]跟[51, 100]。follow up: 如何优化时间复杂度，避免重复计算。
+```
+public int countTask(Interval time, List<Interval> task) {
+        Collections.sort(task, (a,b) -> (a.start - b.start));
+        int res = 0;
+        Map<Integer,Integer> map = new HashMap<Integer,Integer>();
+        for (int i = 0; i < task.size(); i++) {
+            res = Math.max(res, helper(time, task, i, task.get(i).end, map));
+        }
+        return res;
+    }
+    
+    public int helper(Interval time, List<Interval> task, int pos, int maxEnd, Map<Integer,Integer> map) {
+        if (map.containsKey(pos)) return map.get(pos);
+        if (task.get(pos).start < time.start || maxEnd >= time.end) return 0;
+        int cur = 1;
+        for (int i = pos + 1; i < task.size(); i++) {
+            if (task.get(i).start > maxEnd) {
+                cur = Math.max(cur, 1 + helper(time, task, i, task.get(i).end, map));
+            }
+        }
+        map.put(pos, cur);
+        return cur;
+    }
+ ```
+
+2.
+
+1. 给一个排好序的sorted array，输出排好序的square，如[-4, -2, 1, 3, 5] 输出 [1, 4, 9, 16, 25] 要求O(n)
+```
+public int[] squareArr(int[] arr) {
+	int minIndex = findMinIndex(arr);
+	int[] res = new int[arr.length];
+	res[0] = arr[minIndex] * arr[minIndex];
+	int p = minIndex - 1;
+	int q = minIndex + 1;
+	int i = 1;
+	while (i < res.length) {
+		int nump = p >= 0 ? arr[p] * arr[p] : Integer.MAX_VALUE;
+		int numq = q < arr.length ? arr[q] * arr[q] : Integer.MAX_VALUE;
+		if (nump > numq) {
+			res[i] = numq;
+			q++;
+		} else {
+			res[i] = nump;
+			p--;
+		}
+	}
+	return res;
+}
+
+public int findMinIndex(int[] arr) {
+	if (arr[0] >= 0) return 0;
+	if (arr[arr.length - 1] <= 0) return arr.length - 1;
+	for (int i = 0; i < arr.length; i++) {
+		arr[i] = Math.abs(arr[i]);
+	}
+	int start = 0;
+	int end = arr.length - 1;
+	while (start + 1 < end) {
+		int mid = start + (end - start) / 2;
+		if (arr[mid] < arr[mid+1] && arr[mid] < arr[mid-1]) {
+			return mid;
+		} else if (arr[mid] > arr[mid-1]) {
+			end = mid;
+		} else {
+			start = mid;
+		}
+	}
+	return arr[start] < arr[end] ? start : end;
+}
+```
+
+2. Smallest Window
+给一些windows, 输出smallest window要求cover到每一个window
+. more info on 1point3acres
+Input: [4, 10, 15, 23, 26], [0, 9, 12, 19], [5, 18, 22, 30]
+Output: [19, 23]. mor
